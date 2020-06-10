@@ -18,8 +18,8 @@ limitations under the License.
 package provider
 
 import (
-	"github.com/gardener/machine-controller-manager-provider-sampleprovider/pkg/spi"
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/driver"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/spi"
 )
 
 // Provider is the struct that implements the driver interface

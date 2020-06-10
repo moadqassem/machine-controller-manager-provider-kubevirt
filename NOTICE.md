@@ -1,4 +1,4 @@
-## machine-controller-manager-provider-sampleprovider
+## machine-controller-manager-provider-kubevirt
 Copyright (c) 2018-2019 SAP SE or an SAP affiliate company. All rights reserved.
 
 ## Seed Source
@@ -28,9 +28,9 @@ Commit-ID: b776760b257e955d86d279e1bba375b06e9cbe6e.
 Commit-Message:  Merge pull request #129 from pohly/hostpath-1.0.0 -backport-2  
 To the left are the list of copied files -> and to the right the current location they are at.  
 
-    app/nfsplugin/main.go -> app/sampleprovider/cmi-plugin.go
-    pkg/nfs/driver.go -> pkg/sampleprovider/plugin.go
-    pkg/nfs/nodeserver.go -> pkg/sampleprovider/machine_server.go
+    app/nfsplugin/main.go -> app/kubevirt/cmi-plugin.go
+    pkg/nfs/driver.go -> pkg/kubevirt/plugin.go
+    pkg/nfs/nodeserver.go -> pkg/kubevirt/machine_server.go
     pkg/csi-common/driver.go -> pkg/cmicommon/plugin.go
     pkg/csi-common/identityserver-default.go -> pkg/cmicommon/identity_server_defaults.go
     pkg/csi-common/nodeserver-default.go -> pkg/cmicommon/machine_server_defaults.go

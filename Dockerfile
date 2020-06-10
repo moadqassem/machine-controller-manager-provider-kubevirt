@@ -15,5 +15,5 @@ WORKDIR /
 #############      machine-controller               #############
 FROM base AS machine-controller
 
-COPY --from=builder /go/src/github.com/gardener/machine-controller-manager-provider-sampleprovider/bin/rel/machine-controller /machine-controller
+COPY --from=builder /go/src/github.com/moadqassem/machine-controller-manager-provider-kubevirt/bin/rel/machine-controller /machine-controller
 ENTRYPOINT ["/machine-controller"]

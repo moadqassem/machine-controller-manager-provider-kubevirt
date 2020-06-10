@@ -25,13 +25,13 @@ import (
 	"fmt"
 	"os"
 
-	cp "github.com/gardener/machine-controller-manager-provider-sampleprovider/pkg/provider"
-	"github.com/gardener/machine-controller-manager-provider-sampleprovider/pkg/spi"
 	_ "github.com/gardener/machine-controller-manager/pkg/util/client/metrics/prometheus" // for client metric registration
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/app"
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/app/options"
 	_ "github.com/gardener/machine-controller-manager/pkg/util/reflector/prometheus" // for reflector metric registration
 	_ "github.com/gardener/machine-controller-manager/pkg/util/workqueue/prometheus" // for workqueue metric registration
+	cp "github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/provider"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/spi"
 	"github.com/spf13/pflag"
 	"k8s.io/component-base/cli/flag"
 	"k8s.io/component-base/logs"
