@@ -4,7 +4,7 @@ metadata:
   name: test-mc
   namespace: default # Namespace where the controller would watch
 providerSpec:
-  dummy-field: "provider-api based fields goes here"
+  dummy-field: "kubevirt-api based fields goes here"
 secretRef: # If required
   name: test-secret
   namespace: default # Namespace where the controller would watch

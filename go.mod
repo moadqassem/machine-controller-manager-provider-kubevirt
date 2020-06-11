@@ -4,16 +4,25 @@ go 1.13
 
 require (
 	github.com/gardener/machine-controller-manager v0.29.0
-	github.com/gardener/machine-controller-manager-provider-sampleprovider v0.0.0-20200603063853-6b8e6eeea8e2 // indirect
+	github.com/gardener/machine-spec v0.5.0 // indirect
 	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
+	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.5.1 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.5.1 // indirect
 	golang.org/x/net v0.0.0-20200202094626-16171245cfb2 // indirect
-	k8s.io/api v0.0.0-20190918155943-95b840bb6a1f
-	k8s.io/component-base v0.0.0-20190918160511-547f6c5d7090
-	k8s.io/klog v0.4.0
+	google.golang.org/grpc v1.26.0
+	gopkg.in/yaml.v2 v2.2.8
+	k8s.io/api v0.18.2
+	k8s.io/apimachinery v0.18.2
+	k8s.io/client-go v12.0.0+incompatible
+	k8s.io/component-base v0.18.2
+	k8s.io/klog v1.0.0
+	k8s.io/utils v0.0.0-20200324210504-a9aa75ae1b89
+	kubevirt.io/client-go v0.28.0
+	kubevirt.io/containerized-data-importer v1.10.6
+	sigs.k8s.io/controller-runtime v0.6.0
 )
 
 replace (

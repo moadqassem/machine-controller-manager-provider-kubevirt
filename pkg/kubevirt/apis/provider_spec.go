@@ -13,8 +13,15 @@ limitations under the License.
 
 package api
 
-// ProviderSpec is the spec to be used while parsing the calls.
-type ProviderSpec struct {
-	// APIVersion        string                      `json:"apiVersion,omitempty"`
-	// AMI               string                      `json:"ami,omitempty"`
+// KubeVirtProviderSpec is the spec to be used while parsing the calls.
+type KubeVirtProviderSpec struct {
+	APIVersion       string `json:"apiVersion,omitempty"`
+	DNSConfig        string `json:"dnsConfig,omitempty"`
+	DNSPolicy        string `json:"dnsPolicy,omitempty"`
+	SourceURL        string `json:"sourceURL,omitempty"`
+	StorageClassName string `json:"storageClassName,omitempty"`
+	PVCSize          string `json:"pvcSize,omitempty"`
+	CPUs             string `json:"cpus,omitempty"`
+	Memory           string `json:"memory,omitempty"`
+	Namespace        string `json:"namespace,omitempty"`
 }

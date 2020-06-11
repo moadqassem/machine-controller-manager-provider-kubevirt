@@ -23,6 +23,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/core"
 	"os"
 
 	_ "github.com/gardener/machine-controller-manager/pkg/util/client/metrics/prometheus" // for client metric registration
@@ -30,7 +31,6 @@ import (
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/app/options"
 	_ "github.com/gardener/machine-controller-manager/pkg/util/reflector/prometheus" // for reflector metric registration
 	_ "github.com/gardener/machine-controller-manager/pkg/util/workqueue/prometheus" // for workqueue metric registration
-	cp "github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/provider"
 	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/spi"
 	"github.com/spf13/pflag"
 	"k8s.io/component-base/cli/flag"
@@ -46,7 +46,7 @@ func main() {
 	logs.InitLogs()
 	defer logs.FlushLogs()
 
-	provider := cp.NewProvider(&spi.PluginSPIImpl{})
+	provider := core.NewProvider(&spi.PluginSPIImpl{})
 
 	if err := app.Run(s, provider); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
