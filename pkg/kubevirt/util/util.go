@@ -1,23 +1,23 @@
-package kubevirt
+package util
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gardener/machine-controller-manager/pkg/util/provider/machinecodes/codes"
+	"github.com/gardener/machine-controller-manager/pkg/util/provider/machinecodes/status"
+
 	"github.com/gardener/machine-controller-manager/pkg/apis/machine/v1alpha1"
 	api "github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/apis"
-	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/apis/validation"
 	clouderrors "github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/errors"
 	"github.com/pkg/errors"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"k8s.io/klog"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 )
 
-// decodeProviderSpecAndSecret converts request parameters to api.ProviderSpec
-func decodeProviderSpecAndSecret(machineClass *v1alpha1.MachineClass, secret *corev1.Secret) (*api.KubeVirtProviderSpec, error) {
+// DecodeProviderSpecAndSecret converts request parameters to api.ProviderSpec
+func DecodeProviderSpecAndSecret(machineClass *v1alpha1.MachineClass) (*api.KubeVirtProviderSpec, error) {
 	var (
 		providerSpec *api.KubeVirtProviderSpec
 	)
@@ -28,17 +28,10 @@ func decodeProviderSpecAndSecret(machineClass *v1alpha1.MachineClass, secret *co
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	//Validate the Spec and Secrets
-	validationErrors := validation.ValidateKubevirtSecret(providerSpec, secret)
-	if validationErrors != nil {
-		err = fmt.Errorf("error while validating ProviderSpec %v", validationErrors)
-		return nil, status.Error(codes.Internal, err.Error())
-	}
-
 	return providerSpec, nil
 }
 
-func prepareErrorf(err error, format string, args ...interface{}) error {
+func PrepareErrorf(err error, format string, args ...interface{}) error {
 	var (
 		code    codes.Code
 		wrapped error

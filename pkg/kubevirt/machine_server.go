@@ -20,10 +20,11 @@ package kubevirt
 import (
 	"context"
 	"fmt"
-
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/driver"
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/machinecodes/codes"
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/machinecodes/status"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/util"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/validation"
 
 	"k8s.io/klog"
 )
@@ -64,14 +65,20 @@ func (p *MachinePlugin) CreateMachine(ctx context.Context, req *driver.CreateMac
 	klog.V(2).Infof("Machine creation request has been recieved for %q", req.Machine.Name)
 	defer klog.V(2).Infof("Machine creation request has been processed for %q", req.Machine.Name)
 
-	providerSpec, err := decodeProviderSpecAndSecret(req.MachineClass, req.Secret)
+	providerSpec, err := util.DecodeProviderSpecAndSecret(req.MachineClass)
 	if err != nil {
-		return nil, prepareErrorf(err, "Create machine %q failed on decodeProviderSpecAndSecret", req.Machine.Name)
+		return nil, util.PrepareErrorf(err, "Create machine %q failed on DecodeProviderSpecAndSecret", req.Machine.Name)
+	}
+
+	validationErrors := validation.ValidateKubevirtSecret(providerSpec, req.Secret)
+	if validationErrors != nil {
+		err = fmt.Errorf("error while validating ProviderSpec %v", validationErrors)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	providerID, err := p.SPI.CreateMachine(ctx, req.Machine.Name, providerSpec, req.Secret)
 	if err != nil {
-		return nil, prepareErrorf(err, "Create machine %q failed", req.Machine.Name)
+		return nil, util.PrepareErrorf(err, "Create machine %q failed", req.Machine.Name)
 	}
 
 	response := &driver.CreateMachineResponse{
@@ -98,7 +105,20 @@ func (p *MachinePlugin) DeleteMachine(ctx context.Context, req *driver.DeleteMac
 	klog.V(2).Infof("Machine deletion request has been recieved for %q", req.Machine.Name)
 	defer klog.V(2).Infof("Machine deletion request has been processed for %q", req.Machine.Name)
 
-	return &driver.DeleteMachineResponse{}, status.Error(codes.Unimplemented, "")
+	providerSpec, err := util.DecodeProviderSpecAndSecret(req.MachineClass)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "Create machine %q failed on DecodeProviderSpecAndSecret", req.Machine.Name)
+	}
+
+	providerID, err := p.SPI.DeleteMachine(ctx, req.Machine.Name, req.Machine.Spec.ProviderID, providerSpec, req.Secret)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "Create machine %q failed", req.Machine.Name)
+	}
+
+	response := &driver.DeleteMachineResponse{
+		LastKnownState: fmt.Sprintf("Deleted %s", providerID),
+	}
+	return response, nil
 }
 
 // GetMachineStatus handles a machine get status request
@@ -122,7 +142,24 @@ func (p *MachinePlugin) GetMachineStatus(ctx context.Context, req *driver.GetMac
 	klog.V(2).Infof("Get request has been recieved for %q", req.Machine.Name)
 	defer klog.V(2).Infof("Machine get request has been processed successfully for %q", req.Machine.Name)
 
-	return &driver.GetMachineStatusResponse{}, status.Error(codes.Unimplemented, "")
+	providerSpec, err := util.DecodeProviderSpecAndSecret(req.MachineClass)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "Create machine %q failed on DecodeProviderSpecAndSecret", req.Machine.Name)
+	}
+
+	providerID, err := p.SPI.GetMachineStatus(ctx, req.Machine.Name, req.Machine.Spec.ProviderID, providerSpec, req.Secret)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "Machine status %q failed", req.Machine.Name)
+	}
+
+	response := &driver.GetMachineStatusResponse{
+		ProviderID: providerID,
+		NodeName:   req.Machine.Name,
+	}
+
+	klog.V(2).Infof("Machine status: found VM %q for Machine: %q", response.ProviderID, req.Machine.Name)
+
+	return response, nil
 }
 
 // ListMachines lists all the machines possibilly created by a providerSpec
@@ -143,7 +180,21 @@ func (p *MachinePlugin) ListMachines(ctx context.Context, req *driver.ListMachin
 	klog.V(2).Infof("List machines request has been recieved for %q", req.MachineClass.Name)
 	defer klog.V(2).Infof("List machines request has been recieved for %q", req.MachineClass.Name)
 
-	return &driver.ListMachinesResponse{}, status.Error(codes.Unimplemented, "")
+	providerSpec, err := util.DecodeProviderSpecAndSecret(req.MachineClass)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "List machines failed on DecodeProviderSpecAndSecret")
+	}
+
+	machineList, err := p.SPI.ListMachines(ctx, providerSpec, req.Secret)
+	if err != nil {
+		return nil, util.PrepareErrorf(err, "List machines failed")
+	}
+
+	klog.V(2).Infof("List machines request for kubevirt cluster, found %d machines", len(machineList))
+
+	return &driver.ListMachinesResponse{
+		MachineList: machineList,
+	}, nil
 }
 
 // GetVolumeIDs returns a list of Volume IDs for all PV Specs for whom an kubevirt volume was found

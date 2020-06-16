@@ -25,6 +25,7 @@ import (
 	"context"
 	"github.com/gardener/machine-controller-manager/pkg/util/provider/driver"
 	api "github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/apis"
+	"github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/core"
 
 	corev1 "k8s.io/api/core/v1"
 )
@@ -48,5 +49,7 @@ type MachinePlugin struct {
 
 // NewKubevirtPlugin returns a new Kubevirt p
 func NewKubevirtPlugin() driver.Driver {
-	return &MachinePlugin{}
+	return &MachinePlugin{
+		SPI: core.PluginSPIImpl{},
+	}
 }
