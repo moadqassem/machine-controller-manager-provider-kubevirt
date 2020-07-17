@@ -98,6 +98,13 @@ github.com/mailru/easyjson/jlexer
 github.com/mailru/easyjson/jwriter
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
 github.com/matttproud/golang_protobuf_extensions/pbutil
+# github.com/moadqassem/machine-controller-manager-provider-kubevirt v0.0.0-20200616095330-38718008ea52
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/apis
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/core
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/errors
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/util
+github.com/moadqassem/machine-controller-manager-provider-kubevirt/pkg/kubevirt/validation
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.1
@@ -207,14 +214,6 @@ google.golang.org/appengine/internal/log
 google.golang.org/appengine/internal/remote_api
 google.golang.org/appengine/internal/urlfetch
 google.golang.org/appengine/urlfetch
-# google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
-google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.26.0
-google.golang.org/grpc/codes
-google.golang.org/grpc/connectivity
-google.golang.org/grpc/grpclog
-google.golang.org/grpc/internal
-google.golang.org/grpc/status
 # gopkg.in/fsnotify.v1 v1.4.7
 gopkg.in/fsnotify.v1
 # gopkg.in/inf.v0 v0.9.1

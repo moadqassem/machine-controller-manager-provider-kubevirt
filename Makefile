@@ -45,7 +45,7 @@ start:
 			cmd/machine-controller/main.go \
 			--control-kubeconfig=$(CONTROL_KUBECONFIG) \
 			--target-kubeconfig=$(TARGET_KUBECONFIG) \
-			--namespace=$(CONTROL_NAMESPACE) \
+			--namespace=kube-system \
 			--machine-creation-timeout=20m \
 			--machine-drain-timeout=5m \
 			--machine-health-timeout=10m \
